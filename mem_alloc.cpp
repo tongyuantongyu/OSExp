@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <bitset>
 #include <algorithm>
+#include <bit>
 #include "misc.h"
 #include "mem_alloc.h"
 
@@ -94,11 +95,7 @@ bool PageMemoryAllocator::Free(const PID pid, size_t pos) {
   }
   auto &page = page_table[pid];
   while (pos != 0) {
-#ifdef _MSC_VER
-    const auto p_mask = std::_Floor_of_log_2(pos);
-#else
-    const auto p_mask = std::floor2(pos);
-#endif
+    const auto p_mask = b_floor(pos);
     pos -= p_mask;
     const auto p_num = std::log2(p_mask);
 
